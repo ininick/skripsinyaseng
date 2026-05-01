@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panduan Sempro & Sidang Skripsi</title>
+<style>
+  :root {
+    /* Definisi Variabel CSS yang sebelumnya hilang */
+    --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f4f4f5;
+    --color-background-tertiary: #e4e4e7;
+    --color-border-primary: #52525b;
+    --color-border-secondary: #d4d4d8;
+    --color-border-tertiary: #e4e4e7;
+    --color-text-primary: #18181b;
+    --color-text-secondary: #3f3f46;
+    --color-text-tertiary: #71717a;
+    --border-radius-md: 6px;
+    --border-radius-lg: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body { 
+    font-family: var(--font-sans); 
+    background-color: #f8fafc;
+    padding: 20px;
+  }
+
+  /* Container utama agar rapi di tengah */
+  .wrap { 
+    max-width: 800px; 
+    margin: 0 auto; 
+    background: white; 
+    padding: 30px; 
+    border-radius: 16px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 2rem; }
+  
+  .tab { 
+    padding: 8px 18px; 
+    border-radius: var(--border-radius-md); 
+    border: 1px solid var(--color-border-secondary); 
+    background: var(--color-background-primary); 
+    font-size: 14px; 
+    cursor: pointer; 
+    color: var(--color-text-secondary); 
+    transition: all 0.2s ease; 
+  }
+  
+  .tab:hover { background: var(--color-background-secondary); }
+  
+  .tab.active { 
+    background: var(--color-background-tertiary); 
+    border-color: var(--color-border-primary); 
+    color: var(--color-text-primary); 
+    font-weight: 600; 
+  }
+
+  .section { display: none; animation: fadeIn 0.3s; }
+  .section.active { display: block; }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card { 
+    background: var(--color-background-primary); 
+    border: 1px solid var(--color-border-tertiary); 
+    border-radius: var(--border-radius-lg); 
+    padding: 1.25rem 1.5rem; 
+    margin-bottom: 12px; 
+    transition: box-shadow 0.2s;
+  }
+  
+  .card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+
+  .card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  
+  .badge { 
+    font-size: 11px; 
+    font-weight: 600;
+    padding: 4px 10px; 
+    border-radius: 20px; 
+    white-space: nowrap; 
+    flex-shrink: 0; 
+    margin-top: 2px; 
+  }
+  .badge.merah { background: #FCEBEB; color: #A32D2D; }
+  .badge.kuning { background: #FAEEDA; color: #854F0B; }
+  .badge.hijau { background: #EAF3DE; color: #3B6D11; }
+  .badge.biru { background: #E6F1FB; color: #185FA5; }
+
+  .q-text { font-size: 15px; font-weight: 600; color: var(--color-text-primary); line-height: 1.5; }
+  .a-text { font-size: 14px; color: var(--color-text-secondary); line-height: 1.7; margin-top: 8px; }
+  .a-text strong { color: var(--color-text-primary); font-weight: 600; }
+
+  .section-label { 
+    font-size: 13px; 
+    font-weight: 600; 
+    color: var(--color-text-tertiary); 
+    text-transform: uppercase; 
+    letter-spacing: 0.8px; 
+    margin-bottom: 12px; 
+    margin-top: 2rem; 
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  .pill-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .pill { 
+    font-size: 13px; 
+    padding: 6px 12px; 
+    border-radius: 20px; 
+    border: 1px solid var(--color-border-tertiary); 
+    color: var(--color-text-secondary); 
+    background: var(--color-background-secondary); 
+  }
+
+  .hafal-item { 
+    display: flex; gap: 12px; align-items: flex-start; 
+    padding: 12px 0; border-bottom: 1px solid var(--color-border-tertiary); 
+  }
+  .hafal-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .hafal-item:first-child { padding-top: 0; }
+
+  .hafal-num { 
+    font-size: 12px; font-weight: 600; color: #185FA5; 
+    background: #E6F1FB; min-width: 26px; height: 26px; 
+    border-radius: 50%; display: flex; align-items: center; 
+    justify-content: center; flex-shrink: 0; margin-top: 2px; 
+  }
+  
+  .hafal-text { font-size: 14px; color: var(--color-text-primary); line-height: 1.6; }
+  .hafal-text em { color: var(--color-text-secondary); font-style: normal; font-size: 13px; display: block; margin-top: 4px; }
+
+  /* Boks Notifikasi */
+  .warn-box, .info-box, .success-box {
+    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; 
+    padding: 12px 16px; font-size: 14px; line-height: 1.6; margin-bottom: 16px;
+  }
+  .warn-box { background: #FAEEDA; border-left: 4px solid #EF9F27; color: #633806; }
+  .info-box { background: #E6F1FB; border-left: 4px solid #378ADD; color: #0C447C; }
+  .success-box { background: #EAF3DE; border-left: 4px solid #639922; color: #27500A; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 600px) { 
+    .two-col { grid-template-columns: 1fr; } 
+    .wrap { padding: 20px; }
+    .tab { font-size: 13px; padding: 6px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="tabs">
+    <div class="tab active" onclick="show('sempro', event)">Pertanyaan Sempro</div>
+    <div class="tab" onclick="show('sidang', event)">Pertanyaan Sidang</div>
+    <div class="tab" onclick="show('hafalan', event)">Wajib Dihafal</div>
+    <div class="tab" onclick="show('bukti', event)">Yang Harus Dibuktikan</div>
+    <div class="tab" onclick="show('tips', event)">Tips Menjawab</div>
+  </div>
+
+  <div id="sempro" class="section active">
+    <div class="warn-box">Pertanyaan ini diurutkan dari yang <strong>paling sering ditanyakan</strong>. Tandai merah = hampir pasti keluar.</div>
+
+    <div class="section-label">Tentang judul dan rumusan masalah</div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge merah">Pasti keluar</span>
+        <div class="q-text">"Apa yang dimaksud dengan <em>damnum emergens</em> dan apa bedanya dengan <em>lucrum cessans</em>?"</div>
+      </div>
+      <div class="a-text"><strong>Jawab:</strong> Damnum emergens = kerugian nyata yang sudah terjadi, yaitu berkurangnya harta kekayaan kreditur akibat langsung wanprestasi (Pasal 1246 KUHPerdata). Lucrum cessans = keuntungan yang seharusnya diperoleh namun gagal didapat. Biaya advokat diajukan Penggugat sebagai damnum emergens karena biaya itu nyata-nyata dikeluarkan akibat wanprestasi Tergugat.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge merah">Pasti keluar</span>
+        <div class="q-text">"Mengapa biaya advokat bisa dikategorikan sebagai kerugian? Bukankah itu pilihan sendiri?"</div>
+      </div>
+      <div class="a-text"><strong>Jawab:</strong> Itulah inti perdebatannya. MA dalam Yurisprudensi No. 635 K/Sip/1973 menyatakan penggunaan advokat bersifat fakultatif sehingga biayanya tidak dapat dibebankan ke lawan. Namun doktrin restitutio in integrum menghendaki pemulihan kerugian secara penuh. Penelitian ini mengkaji apakah ada nexus kausal langsung antara wanprestasi dengan timbulnya kebutuhan biaya advokat.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge merah">Pasti keluar</span>
+        <div class="q-text">"Apa yang salah dari pertimbangan hakim dalam Putusan 461? Apakah hakim salah menerapkan hukum?"</div>
+      </div>
+      <div class="a-text"><strong>Jawab:</strong> Yang menjadi persoalan adalah hakim menggunakan Putusan MK No. 77/PUU-XVIII/2020 yang konteksnya adalah Pasal 1365 (PMH), lalu diterapkan ke ranah wanprestasi (Pasal 1243-1246). Ini berpotensi mencampuradukkan dua rezim hukum yang berbeda karakter. Penelitian ini tidak langsung menyimpulkan hakim salah, tetapi mengkaji apakah adaptasi tersebut konsisten dengan kaidah hukum perikatan.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge merah">Pasti keluar</span>
+        <div class="q-text">"Apa itu ratio decidendi? Bedakan dengan obiter dictum."</div>
+      </div>
+      <div class="a-text"><strong>Jawab:</strong> Ratio decidendi adalah alasan hukum utama yang menjadi dasar hakim menjatuhkan putusan — inilah yang mengikat. Obiter dictum adalah pernyataan hakim yang sifatnya pendapat sampingan, tidak menentukan amar, dan tidak mengikat. Penelitian ini mengkaji ratio decidendi hakim PN Jaksel dalam menolak tuntutan ganti rugi biaya advokat.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge kuning">Sangat mungkin</span>
+        <div class="q-text">"Mengapa menggunakan metode normatif? Kenapa tidak empiris?"</div>
+      </div>
+      <div class="a-text"><strong>Jawab:</strong> Karena pokok permasalahannya adalah kekaburan norma dan inkonsistensi penerapan hukum dalam putusan — bukan perilaku hukum di masyarakat. Metode normatif tepat karena objek kajiannya adalah bahan hukum berupa peraturan, doktrin, dan putusan pengadilan, bukan data lapangan.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge kuning">Sangat mungkin</span>
+        <div class="q-text">"Mengapa ada tiga pendekatan? Jelaskan masing-masing kegunaannya dalam penelitian ini."</div>
+      </div>
+      <div class="a-text"><strong>Statute approach</strong> → menelaah Pasal 1243–1246 KUHPerdata untuk menemukan makna "biaya" dan batasannya. <br><strong>Case approach</strong> → membedah ratio decidendi Putusan 461. <br><strong>Conceptual approach</strong> → membangun kerangka konsep damnum emergens, restitutio in integrum, dan kausalitas sebagai pisau analisis.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge kuning">Sangat mungkin</span>
+        <div class="q-text">"Apa urgensi atau novelty penelitian ini? Apa bedanya dengan penelitian sebelumnya?"</div>
+      </div>
+      <div class="a-text"><strong>Jawab:</strong> Penelitian sebelumnya (misalnya Badri 2024, Apriani 2021) membahas disparitas putusan secara umum. Penelitian ini spesifik mengkritisi penggunaan Putusan MK No. 77/PUU-XVIII/2020 — yang lahir dari ranah PMH — sebagai landasan untuk menolak ganti rugi dalam perkara wanprestasi. Inilah celah (gap) yang belum dikaji mendalam.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge hijau">Mungkin keluar</span>
+        <div class="q-text">"Apa itu prinsip restitutio in integrum?"</div>
+      </div>
+      <div class="a-text"><strong>Jawab:</strong> Asas yang menghendaki agar pihak yang dirugikan dikembalikan pada keadaan seolah-olah wanprestasi tidak pernah terjadi. Dengan kata lain, ganti rugi harus bersifat menyeluruh dan memulihkan seluruh kerugian yang timbul dari wanprestasi, termasuk biaya-biaya yang nyata dikeluarkan.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge hijau">Mungkin keluar</span>
+        <div class="q-text">"Apakah ada yurisprudensi yang mendukung biaya advokat bisa dituntut?"</div>
+      </div>
+      <div class="a-text"><strong>Jawab:</strong> Ada, dalam konteks tertentu. Beberapa putusan pengadilan tingkat pertama pernah mengabulkan dengan dasar kepatutan. J. Satrio berpendapat biaya advokat termasuk komponen "ongkos" yang merupakan kerugian riil (dalam Hukum Perikatan: Perikatan Pada Umumnya, hlm. 179). Namun secara konsisten MA menolaknya untuk perkara kontrak konvensional.</div>
+    </div>
+  </div>
+
+  <div id="sidang" class="section">
+    <div class="info-box">Pertanyaan sidang skripsi lebih dalam dan teknis. Penguji akan menguji <strong>konsistensi</strong> dan <strong>kedalaman analisis</strong> Anda.</div>
+
+    <div class="section-label">Pertanyaan teknis hukum</div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge merah">Pasti keluar</span>
+        <div class="q-text">"Sebutkan unsur-unsur yang harus dipenuhi agar ganti rugi dapat dikabulkan dalam wanprestasi menurut KUHPerdata."</div>
+      </div>
+      <div class="a-text">Ada 4 syarat: (1) debitur harus sudah dinyatakan lalai melalui somasi (Pasal 1238); (2) wanprestasi nyata terjadi; (3) ada kerugian; (4) ada hubungan kausal langsung antara wanprestasi dan kerugian. Dalam kasus ini, syarat ke-4 inilah yang dipermasalahkan — apakah biaya advokat memiliki nexus kausal langsung dengan wanprestasi Tergugat.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge merah">Pasti keluar</span>
+        <div class="q-text">"Jelaskan Putusan MK No. 77/PUU-XVIII/2020. Apa substansinya dan mengapa tidak tepat diterapkan ke wanprestasi?"</div>
+      </div>
+      <div class="a-text">Putusan MK tersebut mengupas konstitusionalitas makna "kerugian" dalam Pasal 1365 KUHPerdata (PMH). MK menafsirkan bahwa kerugian yang dapat dituntut harus bersifat aktual dan dapat dibuktikan. Masalahnya: Pasal 1365 mengatur perikatan lahir dari undang-undang, bukan perjanjian. Wanprestasi tunduk pada Pasal 1243–1246 yang memiliki rezim tersendiri. Mencampurkan keduanya bertentangan dengan asas lex specialis dan dapat mengaburkan karakter unik masing-masing rezim.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge merah">Pasti keluar</span>
+        <div class="q-text">"Bagaimana saudara membuktikan bahwa ada hubungan kausal antara wanprestasi dan timbulnya biaya advokat?"</div>
+      </div>
+      <div class="a-text">Argumentasinya: tanpa wanprestasi Tergugat, Penggugat tidak perlu mengeluarkan biaya advokat. Wanprestasi adalah conditio sine qua non dari timbulnya biaya tersebut. Ini memenuhi teori adequate causation — bahwa tindakan wanprestasi, secara wajar dan dapat diduga, akan mengakibatkan pihak yang dirugikan harus menyewa advokat guna mempertahankan haknya.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge merah">Pasti keluar</span>
+        <div class="q-text">"Apa bedanya PMH dan wanprestasi? Mengapa tidak bisa digabung dalam satu gugatan?"</div>
+      </div>
+      <div class="a-text">Wanprestasi lahir dari perjanjian (Pasal 1243), memerlukan somasi, lingkup kerugian dibatasi Pasal 1246. PMH lahir dari UU (Pasal 1365), tidak perlu somasi, cakupan kerugian lebih luas termasuk immaterial. MA dalam Putusan No. 1875 K/Pdt/1984 menegaskan penggabungan keduanya dalam satu gugatan merupakan pelanggaran tertib beracara.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge kuning">Sangat mungkin</span>
+        <div class="q-text">"Jika hakim mengabulkan biaya advokat, apa parameter/batasannya agar tidak sewenang-wenang?"</div>
+      </div>
+      <div class="a-text">Ini pertanyaan kritis. Jawabannya: (1) harus ada kwitansi/bukti pembayaran yang sah; (2) besaran harus wajar dan proporsional (asas kepatutan Pasal 1339); (3) belum ada tarif baku sehingga hakim perlu menggunakan diskresi berdasarkan kompleksitas perkara. Inilah yang menjadi salah satu hambatan praktis pengakuan biaya ini.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge kuning">Sangat mungkin</span>
+        <div class="q-text">"Apa kesimpulan penelitian Anda? Apakah putusan hakim sudah benar?"</div>
+      </div>
+      <div class="a-text">Jawaban harus tegas namun berimbang. Contoh: "Berdasarkan analisis, penggunaan Putusan MK No. 77/PUU-XVIII/2020 sebagai landasan penolakan dalam perkara wanprestasi tidak tepat karena kedua rezim memiliki dasar hukum yang berbeda. Namun penolakan biaya advokat secara substansi masih dapat dibenarkan berdasarkan Yurisprudensi No. 635 K/Sip/1973 yang menyatakan penggunaan advokat bersifat fakultatif."</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge hijau">Mungkin keluar</span>
+        <div class="q-text">"Bagaimana perbandingan dengan sistem hukum negara lain soal biaya advokat dalam sengketa kontrak?"</div>
+      </div>
+      <div class="a-text">Sistem common law (UK, AS) mengenal prinsip "loser pays" — pihak yang kalah menanggung biaya hukum pihak lawan. Sistem civil law (Belanda, Jerman) juga memungkinkan hal serupa. Indonesia sebagai penganut civil law seharusnya memiliki ruang untuk mengakomodasi ini, namun praktiknya tertutup oleh yurisprudensi yang kaku.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge hijau">Mungkin keluar</span>
+        <div class="q-text">"Apa saran konkret yang Anda berikan? Apakah perlu perubahan undang-undang?"</div>
+      </div>
+      <div class="a-text">Saran: (1) MA perlu menerbitkan SEMA atau Peraturan MA yang mengatur secara tegas kriteria dan batasan pengakuan biaya advokat sebagai komponen ganti rugi; (2) hakim perlu kehati-hatian dalam mengadaptasi putusan dari satu rezim ke rezim hukum lain; (3) ke depan perlu revisi KUHPerdata untuk memberikan kepastian normatif atas komponen ini.</div>
+    </div>
+  </div>
+
+  <div id="hafalan" class="section">
+    <div class="success-box">Ini adalah <strong>pasal, nomor putusan, dan konsep</strong> yang WAJIB Anda hafal sebelum masuk ruang sempro/sidang.</div>
+
+    <div class="section-label">Pasal KUHPerdata wajib hafal</div>
+    <div class="card">
+      <div class="hafal-item">
+        <div class="hafal-num">1</div>
+        <div class="hafal-text">Pasal 1338 ayat (1) — asas pacta sunt servanda<em>"Semua perjanjian yang dibuat secara sah berlaku sebagai undang-undang bagi mereka yang membuatnya"</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">2</div>
+        <div class="hafal-text">Pasal 1243 — dasar kewajiban ganti rugi wanprestasi<em>Ganti rugi diwajibkan jika debitur tetap lalai setelah dinyatakan lalai (somasi)</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">3</div>
+        <div class="hafal-text">Pasal 1246 — komponen ganti rugi: biaya, rugi, bunga<em>Inilah dasar tuntutan biaya advokat — masuk ke unsur "biaya" (kosten)</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">4</div>
+        <div class="hafal-text">Pasal 1247 — batasan: hanya kerugian yang dapat diduga saat perjanjian dibuat<em>Ini yang sering digunakan hakim membatasi tuntutan ganti rugi</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">5</div>
+        <div class="hafal-text">Pasal 1365 — dasar PMH (perbuatan melawan hukum)<em>Pasal ini yang ada di Putusan MK 77 — BEDA dengan wanprestasi</em></div>
+      </div>
+    </div>
+
+    <div class="section-label">Nomor putusan dan yurisprudensi wajib hafal</div>
+    <div class="card">
+      <div class="hafal-item">
+        <div class="hafal-num">1</div>
+        <div class="hafal-text">Putusan PN Jaksel No. 461/Pdt.G/2023/PN Jkt.Sel<em>Putusan yang diteliti — hapal nomor, tahun, dan pengadilan mana</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">2</div>
+        <div class="hafal-text">Putusan MK No. 77/PUU-XVIII/2020<em>Yang digunakan hakim sebagai dasar penolakan — konteksnya PMH bukan wanprestasi</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">3</div>
+        <div class="hafal-text">Yurisprudensi MA No. 635 K/Sip/1973 (4 Juli 1974)<em>Landasan klasik: honorarium advokat tidak bisa dibebankan ke lawan karena HIR tidak mewajibkan penggunaan advokat</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">4</div>
+        <div class="hafal-text">Putusan MA No. 3557 K/Pdt/2015 (29 Maret 2016)<em>Konfirmasi terbaru: biaya advokat adalah kewajiban yang disepakati penggugat sendiri</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">5</div>
+        <div class="hafal-text">Putusan MA No. 1875 K/Pdt/1984<em>Penggabungan wanprestasi dan PMH dalam satu gugatan = pelanggaran tertib beracara</em></div>
+      </div>
+    </div>
+
+    <div class="section-label">Istilah Latin/Belanda wajib hafal dan bisa jelaskan</div>
+    <div class="card">
+      <div class="pill-group">
+        <span class="pill">damnum emergens = kerugian nyata</span>
+        <span class="pill">lucrum cessans = keuntungan yang hilang</span>
+        <span class="pill">interessen = bunga/kompensasi</span>
+        <span class="pill">pacta sunt servanda = janji wajib ditepati</span>
+        <span class="pill">restitutio in integrum = pemulihan penuh</span>
+        <span class="pill">ratio decidendi = alasan hukum putusan</span>
+        <span class="pill">obiter dictum = pendapat hakim sampingan</span>
+        <span class="pill">conditio sine qua non = syarat mutlak kausalitas</span>
+        <span class="pill">freedom of contract = kebebasan berkontrak</span>
+        <span class="pill">lex specialis = hukum khusus mengalahkan umum</span>
+        <span class="pill">kosten = biaya</span>
+        <span class="pill">schaden = kerugian</span>
+      </div>
+    </div>
+
+    <div class="section-label">Nama penulis dan buku/jurnal wajib ingat</div>
+    <div class="card">
+      <div class="hafal-item">
+        <div class="hafal-num">1</div>
+        <div class="hafal-text">Subekti — Hukum Perjanjian (2014)<em>"Janji adalah utang yang wajib ditepati" — tentang pacta sunt servanda</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">2</div>
+        <div class="hafal-text">J. Satrio — Hukum Perikatan: Perikatan yang Lahir dari Perjanjian (2022)<em>Tentang damnum emergens dan batasan ganti rugi; juga menyatakan biaya advokat termasuk "ongkos" yang riil</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">3</div>
+        <div class="hafal-text">M. Yahya Harahap — Segi-Segi Hukum Perjanjian (2020)<em>Tentang pentingnya peran advokat dalam beracara perdata</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">4</div>
+        <div class="hafal-text">Peter Mahmud Marzuki — Penelitian Hukum: Edisi Revisi (2021)<em>Case approach: yang dikaji adalah ratio decidendi, bukan fakta hukum</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">5</div>
+        <div class="hafal-text">Syaiful Badri — Jurnal USM Law Review Vol. 7 No. 2 (2024)<em>Disparitas penerapan ganti rugi PMH vs wanprestasi menimbulkan ketidakpastian hukum</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="bukti" class="section">
+    <div class="info-box">Ini yang harus Anda <strong>siapkan secara fisik</strong> di meja sidang dan <strong>bisa tunjukkan</strong> jika dospem/penguji meminta.</div>
+
+    <div class="section-label">Dokumen fisik yang harus dibawa</div>
+    <div class="card">
+      <div class="hafal-item">
+        <div class="hafal-num">1</div>
+        <div class="hafal-text">Print out Putusan No. 461/Pdt.G/2023/PN Jkt.Sel<em>Unduh dari putusan3.mahkamahagung.go.id — tandai bagian yang menolak biaya advokat dengan stabilo</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">2</div>
+        <div class="hafal-text">Print out Putusan MK No. 77/PUU-XVIII/2020<em>Unduh dari mkri.id — tandai bagian definisi "kerugian" yang dikutip hakim PN</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">3</div>
+        <div class="hafal-text">Print out Yurisprudensi MA No. 635 K/Sip/1973<em>Bisa dari forumduniahukumblogku.wordpress.com — tandai kalimat kuncinya</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">4</div>
+        <div class="hafal-text">Daftar sumber jurnal beserta linknya<em>Siapkan di 1 lembar A4 — agar jika dospem tanya "ada jurnalnya?" Anda langsung tunjukkan</em></div>
+      </div>
+    </div>
+
+    <div class="section-label">Yang harus bisa Anda buktikan secara argumentasi</div>
+    <div class="card">
+      <div class="hafal-item">
+        <div class="hafal-num">1</div>
+        <div class="hafal-text">Buktikan: ada nexus kausal antara wanprestasi dan timbulnya biaya advokat<em>Argumen: tanpa wanprestasi Tergugat → tidak ada gugatan → tidak ada kebutuhan advokat → tidak ada biaya. Kausalitas terpenuhi.</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">2</div>
+        <div class="hafal-text">Buktikan: Putusan MK 77 tidak seharusnya digunakan dalam ranah wanprestasi<em>Argumen: MK menafsirkan Pasal 1365 (PMH). Wanprestasi tunduk Pasal 1243-1246. Dua rezim berbeda tidak dapat saling pinjam norma begitu saja tanpa kehati-hatian.</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">3</div>
+        <div class="hafal-text">Buktikan: disparitas putusan hakim nyata terjadi<em>Tunjukkan: ada putusan yang mengabulkan (misal putusan PN Karawang 2008) vs putusan yang menolak (kasus yang diteliti). Ini membuktikan tidak ada kepastian hukum.</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">4</div>
+        <div class="hafal-text">Buktikan: metode normatif sudah tepat untuk penelitian ini<em>Objek kajian = norma dan putusan, bukan perilaku masyarakat → normatif sudah benar. Tidak perlu wawancara hakim karena data sudah cukup dari bahan hukum sekunder.</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">5</div>
+        <div class="hafal-text">Buktikan: judul dan rumusan masalah sudah linear<em>Judul = analisis yuridis penolakan. RM 1 = yuridis biaya advokat sebagai damnum emergens. RM 2 = ratio decidendi hakim dan relevansinya dengan KUHPerdata. Keduanya menjawab judul secara langsung.</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tips" class="section">
+    <div class="section-label">Rumus menjawab pertanyaan dospem</div>
+    <div class="card">
+      <div class="hafal-item">
+        <div class="hafal-num">1</div>
+        <div class="hafal-text">Definisi dulu, baru analisis<em>Jangan langsung analisis tanpa mendefinisikan istilah. Contoh: "Damnum emergens adalah... dalam konteks penelitian ini artinya..."</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">2</div>
+        <div class="hafal-text">Selalu sebut dasar hukumnya<em>Setiap klaim harus ada pasalnya atau nama penulisnya. Tanpa dasar hukum = pendapat pribadi.</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">3</div>
+        <div class="hafal-text">Kalau tidak tahu, akui dengan elegan<em>"Hal tersebut belum menjadi fokus penelitian ini, namun berdasarkan..." Jangan mengarang.</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">4</div>
+        <div class="hafal-text">Kalau dikoreksi dospem, jangan defensif<em>"Terima kasih atas masukan Bapak/Ibu, saya akan memperbaiki..." lalu catat di kertas.</em></div>
+      </div>
+      <div class="hafal-item">
+        <div class="hafal-num">5</div>
+        <div class="hafal-text">Jawab sesuai scope penelitian<em>Jika ditanya hal di luar BAB I, boleh bilang "Hal ini akan dibahas lebih mendalam di BAB IV."</em></div>
+      </div>
+    </div>
+
+    <div class="section-label">Kalimat pembuka jawaban yang profesional</div>
+    <div class="card" style="font-size: 14px; color: var(--color-text-secondary); line-height: 1.8;">
+      <div style="margin-bottom: 8px;">Jika paham: <span style="color: var(--color-text-primary); font-weight: 500;">"Berdasarkan [Pasal/Penulis], yang dimaksud dengan... adalah... Dalam konteks penelitian ini, hal tersebut berarti..."</span></div>
+      <div style="margin-bottom: 8px;">Jika butuh klarifikasi: <span style="color: var(--color-text-primary); font-weight: 500;">"Mohon izin mengklarifikasi, apakah yang Bapak/Ibu maksud adalah...?"</span></div>
+      <div style="margin-bottom: 8px;">Jika ada dua pendapat: <span style="color: var(--color-text-primary); font-weight: 500;">"Terdapat dua pandangan terkait hal ini. Pertama... Kedua... Dalam penelitian ini penulis mengambil posisi bahwa..."</span></div>
+      <div>Jika dikoreksi: <span style="color: var(--color-text-primary); font-weight: 500;">"Terima kasih atas koreksinya Bapak/Ibu. Saya mencatat hal ini sebagai perbaikan proposal saya."</span></div>
+    </div>
+
+    <div class="section-label">Yang sering membuat mahasiswa gagal sempro</div>
+    <div class="card" style="padding: 1.25rem;">
+      <div class="warn-box" style="margin-bottom: 12px; border-radius: 6px;">Tidak hafal nomor pasal — jangan bilang "ada pasalnya di KUHPerdata" tanpa menyebut nomornya.</div>
+      <div class="warn-box" style="margin-bottom: 12px; border-radius: 6px;">Bingung bedakan wanprestasi dan PMH — ini PASTI ditanyakan karena inti topiknya.</div>
+      <div class="warn-box" style="margin-bottom: 12px; border-radius: 6px;">Tidak bisa jelaskan mengapa memilih 3 pendekatan — harus bisa jelaskan fungsi masing-masing.</div>
+      <div class="warn-box" style="margin-bottom: 0; border-radius: 6px;">Tidak tahu isi putusan yang diteliti — minimal hafal: siapa penggugat, tergugat, berapa nilai gugatan, apa yang ditolak hakim.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Script untuk mengatur navigasi tab
+  function show(id, event) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    
+    document.getElementById(id).classList.add('active');
+    
+    // Fallback jika diklik melalui script tanpa event khusus
+    if(event) {
+      event.target.classList.add('active');
+    } else {
+      document.querySelector(`[onclick="show('${id}', event)"]`).classList.add('active');
+    }
+  }
+</script>
+
+</body>
+</html>
